@@ -26,3 +26,16 @@ def sqrt(n: int | float, iters:int=10) -> float | Exception:
   if complex_tag:
     return complex(0, x)
   return x
+
+def factorial(n: int) -> int | Exception:
+  """Factorial, n! = Π{i=1, n} i
+  or: n * (n-1) * (n-2) * ... * 2 * 1
+  e.g. 5! = 5 x 4 x 3 x 2 x 1 = 120
+  Domain: n ∈ N+
+  """
+  type_check(n, int)
+  if n < 0:
+    raise ValueError("Factorial of a negative number requires the Gamma Function")
+  for i in range(2, n):
+    n *= i
+  return n
