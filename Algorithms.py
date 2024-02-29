@@ -9,7 +9,7 @@ def sieve_of_eratosthenes(upper_limit: int) -> list[int] | Exception:
     raise ValueError("upper limit must be ∈ N+ (A positive integer)")
   if upper_limit == 1:
     return []
-  if upper_ limit == 2:
+  if upper_limit == 2:
     return [2]
   arr_bool = [False, False]
   arr_bool += [True]*(upper_limit - 1)
