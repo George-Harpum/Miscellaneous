@@ -10,7 +10,7 @@ def type_check(var: Any, *types: Any) -> None | Exception:
     raise TypeError(f"{var} must be in types: {types}, not {type(var)}")
 
 
-def sqrt(n: int | float, iters:int=10) -> float | Exception:
+def Sqrt(n: int | float, iters:int=10) -> float | Exception:
   type_check(n, *(int, float))
   complex_tag = None
   if n < 0:
@@ -27,7 +27,8 @@ def sqrt(n: int | float, iters:int=10) -> float | Exception:
     return complex(0, x)
   return x
 
-def factorial(n: int) -> int | Exception:
+
+def Factorial(n: int) -> int | Exception:
   """Factorial, n! = Π{i=1, n} i
   or: n * (n-1) * (n-2) * ... * 2 * 1
   e.g. 5! = 5 x 4 x 3 x 2 x 1 = 120
@@ -39,3 +40,14 @@ def factorial(n: int) -> int | Exception:
   for i in range(2, n):
     n *= i
   return n
+
+
+def Combination(n: int, r: int) -> int | Exception:
+  type_check(n, int)
+  type_check(r, int)
+  return int(factorial(n) / (factorial(n-r) * factorial(r)))
+
+def Permutation(n: int, r: int) -> int | Exception:
+  type_check(n, int)
+  type_check(r, int)
+  return int(factorial(n) / (factorial(n-r))
