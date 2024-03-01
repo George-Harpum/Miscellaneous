@@ -20,3 +20,18 @@ def sieve_of_eratosthenes(upper_limit: int) -> list[int] | Exception:
         arr_bool[j] = False
     i += 1
   return [x for x, y in enumerate(arr_bool) if y is True]
+
+
+def binary_search(target: int, array: list[int]):
+  lower = 0
+  upper = len(array) - 1
+  while lower <= upper:
+    mid = ((upper - lower)//2) + lower
+    if (search := array[mid]) < target:
+      lower = mid+1
+    elif search > target:
+      upper = mid-1
+    else:
+      return mid
+  else:
+    raise ValueError(f"The item ({target}) cannot be found within array")
