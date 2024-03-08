@@ -29,7 +29,7 @@ def Sqrt(n: int | float, iters:int=10) -> float | Exception:
 
 
 def Factorial(n: int) -> int | Exception:
-  """Factorial, n! = Π{i=1, n} i
+  """The Factorial, n! = Π{i=1, n} i
   or: n * (n-1) * (n-2) * ... * 2 * 1
   e.g. 5! = 5 x 4 x 3 x 2 x 1 = 120
   Domain: n ∈ N+
@@ -37,17 +37,32 @@ def Factorial(n: int) -> int | Exception:
   type_check(n, int)
   if n < 0:
     raise ValueError("Factorial of a negative number requires the Gamma Function")
-  for i in range(2, n):
+  if n == 0:
+    return 1
+  for i in range(2, n):  # x * 1 = x, starting at 2 saves a loop.
     n *= i
   return n
 
 
 def Combination(n: int, r: int) -> int | Exception:
+  """The number of unordered subsets containing 'r' unique elements chosen from a set with 'n' elements.
+  nCr = n!/r!(n-r)!
+  e.g. There are three subsets of (1, 2, 3) that contain two elements (1, 2), (1, 3), (2, 3).
+  Domain: {n, r} ∈ N+
+    nCr ∈ N+ """
   type_check(n, int)
   type_check(r, int)
-  return int(factorial(n) / (factorial(n-r) * factorial(r)))
+  return int(Factorial(n) / (Factorial(n-r) * Factorial(r)))  # Proof that the result in always an integer is beyond this implementation
+
 
 def Permutation(n: int, r: int) -> int | Exception:
+  """The number of subsets containing 'r' elements elements chosen from a set with 'n' elements.
+  In comparison to combinations, in permutations the order of a set is important, e.g. (1, 2, 3) != (3, 2, 1)
+  nPr = n!/(n-r)!
+  Domiain: {n, r} ∈ N+
+      nPr ∈ N+ """
   type_check(n, int)
   type_check(r, int)
-  return int(factorial(n) / (factorial(n-r))
+  return int(Factorial(n) / (Factorial(n-r)))  # Proof that the result in always an integer is beyond this implementation
+
+
