@@ -66,3 +66,10 @@ def Permutation(n: int, r: int) -> int | Exception:
   return int(Factorial(n) / (Factorial(n-r)))  # Proof that the result in always an integer is beyond this implementation
 
 
+def Sum_between(lower: int, upper: int):
+  """sum of all integers between lower -> upper bound (both inclusive)"""
+  return (upper*(upper+1)-(lower*(lower-1)))//2
+
+def Sum_to(upper: int):
+  """Sum of all integers 1 -> upper (inclusive)"""
+  return (upper*(upper+1))//2
