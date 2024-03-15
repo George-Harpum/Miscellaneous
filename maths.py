@@ -3,7 +3,7 @@ Maths-based functions implemented in python.
 (Not intended to be used practically, but proof of concept).
 """
 
-def Sqrt(n: int | float, iters:int=10) -> float | TypeError:
+def Sqrt(n: int | float, iters:int=10) -> float:
   complex_tag = None
   if n < 0:
     n = abs(n)
@@ -20,7 +20,7 @@ def Sqrt(n: int | float, iters:int=10) -> float | TypeError:
   return x
 
 
-def Factorial(n: int) -> int | TypeError | ValueError:
+def Factorial(n: int) -> int | ValueError:
   """The Factorial, n! = Π{i=1, n} i
   or: n * (n-1) * (n-2) * ... * 2 * 1
   e.g. 5! = 5 x 4 x 3 x 2 x 1 = 120
@@ -35,7 +35,7 @@ def Factorial(n: int) -> int | TypeError | ValueError:
   return n
 
 
-def Combination(n: int, r: int) -> int | TypeError:
+def Combination(n: int, r: int) -> int:
   """The number of unordered subsets containing 'r' unique elements chosen from a set with 'n' elements.
   nCr = n!/r!(n-r)!
   e.g. There are three subsets of (1, 2, 3) that contain two elements (1, 2), (1, 3), (2, 3).
@@ -53,7 +53,7 @@ def Permutation(n: int, r: int) -> int | TypeError:
   return int(Factorial(n) / (Factorial(n-r)))  # Proof that the result in always an integer is beyond this implementation
 
 # Below are kept as separate functions for now. 
-def Sum_between(lower: int, upper: int) -> int | TypeError:
+def Sum_between(lower: int, upper: int) -> int:
   """sum of all integers between lower -> upper bound (both inclusive)"""
   return (upper*(upper+1)-(lower*(lower-1)))//2
 
@@ -80,11 +80,11 @@ def Digital_root(x: int | str, /, base: int = 10) -> int:
 
 """ Dice probability functions """
 
-def Keep_highest(x: int, /, num_dice: int=2, dice_sides: int=20) -> float | TypeError:
+def Keep_highest(x: int, /, num_dice: int=2, dice_sides: int=20) -> float:
   """Probability of rolling a number 'x' on a s-sided die when rolling n dice and only keeping the highest value"""
   return (x**num_dice - (x-1)**num_dice) / (dice_sides**num_dice)
 
-def Keep_lowest(x: int, /, num_dice: int=2, dice_sides: int=20) -> float | TypeError:
+def Keep_lowest(x: int, /, num_dice: int=2, dice_sides: int=20) -> float:
   """Probability of rolling a number 'x' on a s-sided die whne rolling n dice and only keeping the lowest value"""
   a = dice_sides+1 - x  # The values are reversed
   return keep_highest(a, num_dice, dice_sides)
