@@ -62,7 +62,7 @@ def Sum_to(upper: int) -> int | TypeError:
   return (upper*(upper+1))//2
 
 
-def digital_root(x: int | str, /, base: int = 10) -> int:
+def Digital_root(x: int | str, /, base: int = 10) -> int:
   """repeated sum of digits until only a single digit remains
   e.g. 12345 -> 1+2+3+4+5 = 15 -> 1+5 -> 6
   digital_root(12345, 10) -> 6
@@ -80,11 +80,11 @@ def digital_root(x: int | str, /, base: int = 10) -> int:
 
 """ Dice probability functions """
 
-def keep_highest(x: int, /, num_dice: int=2, dice_sides: int=20) -> float | TypeError:
+def Keep_highest(x: int, /, num_dice: int=2, dice_sides: int=20) -> float | TypeError:
   """Probability of rolling a number 'x' on a s-sided die when rolling n dice and only keeping the highest value"""
   return (x**num_dice - (x-1)**num_dice) / (dice_sides**num_dice)
 
-def keep_lowest(x: int, /, num_dice: int=2, dice_sides: int=20) -> float | TypeError:
+def Keep_lowest(x: int, /, num_dice: int=2, dice_sides: int=20) -> float | TypeError:
   """Probability of rolling a number 'x' on a s-sided die whne rolling n dice and only keeping the lowest value"""
   a = dice_sides+1 - x  # The values are reversed
   return keep_highest(a, num_dice, dice_sides)
