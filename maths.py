@@ -62,6 +62,22 @@ def Sum_to(upper: int) -> int | TypeError:
   return (upper*(upper+1))//2
 
 
+def digital_root(x: int | str, /, base: int = 10) -> int:
+  """repeated sum of digits until only a single digit remains
+  e.g. 12345 -> 1+2+3+4+5 = 15 -> 1+5 -> 6
+  digital_root(12345, 10) -> 6
+  when x is an int, it must be in base 10.
+  when x is a str, it must be in the same base as given as base parameter"""
+  if isinstance(x, str):
+    x = int(x, base)
+  if x == 0:
+    return 0
+  new_base = base - 1
+  if (out:= x % new_base) == 0:
+    return new_base
+  return out
+
+
 """ Dice probability functions """
 
 def keep_highest(x: int, /, num_dice: int=2, dice_sides: int=20) -> float | TypeError:
