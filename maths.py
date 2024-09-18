@@ -1,4 +1,4 @@
-"""
+"""jkkj
 Maths-based functions implemented in python. 
 (Not intended to be used practically, but proof of concept).
 """
@@ -42,6 +42,22 @@ def combination(n: int, r: int) -> int:
   Domain: {n, r} ∈ N+
     nCr ∈ N+ """
   return int(factorial(n) / (factorial(n-r) * factorial(r)))  # Proof that the result in always an integer is beyond this implementation
+
+def comb(n: int, r: int) -> int:
+  """faster implementation of nCr / combinations / bionomial coefficient using the multiplicative formula"""
+  if r == 1 or n-r == 1:
+    return n
+  if n == r or r == 0:
+    return 1
+  if r > n or r < 0:
+    raise ValueError(f"domain is 1 <= r <= n, cannot accept {r=}")
+  if r > 1:
+    if n-r < r:
+      r = n-r
+    t = n
+    for i in range(2, r+1):
+      n *= (t+1-i)/i
+  return int(n)
 
 
 def permutation(n: int, r: int) -> int | TypeError:
@@ -88,3 +104,66 @@ def keep_lowest(x: int, /, num_dice: int=2, dice_sides: int=20) -> float:
   """Probability of rolling a number 'x' on a s-sided die whne rolling n dice and only keeping the lowest value"""
   a = dice_sides+1 - x  # The values are reversed
   return keep_highest(a, num_dice, dice_sides)
+
+def avg_roll(num: int, sides: int) -> float:
+  """Simple average of xdy dice"""
+  return num*((sides+1)/2)
+
+def success_distribution(odds_per: float, total=1) -> dict[int, float]:
+  """Distribution of number of successes with an independent probability.
+  returns dict[number_of_successes, probability]"""
+  if not isinstance(total, int) or total < 0:
+    raise ValueError(f"Domain: Attacks ∈ N, instead received {total}")
+  out = {}
+  for num in range(total+1):
+    temp = comb(total, num)
+    temp *= odds_per**num
+    temp *= (1-odds_per)**(total-num)
+    out[num] = temp
+  return out
+
+from functools import partial
+def chance_to_beat_target(target, mod, *, adv=0, sides=20):
+  """Calculate the proibability of rolling >= target when total roll is dice+modifier
+  Assumes (and can only handle) "meets it beats it" (roll >= target) method of rolling
+  Parameters:
+    target: int = the number you must roll >= then
+    mod: int = modifier that is added to the roll (can be negative)
+    dice_sides: int = total number of sides the dice has (assumes sides are 1 -> dice_sides)
+  """
+  higher = sides+1
+  lower = target-mod
+  if abs(adv) < 2: 
+    if lower >= higher:
+      return 0.05 # allows automatic success (DnD 5e nat 20 rules)
+    if lower < 1:
+      return 0.95 # allows automatic failure (nat 1 always fails)
+  hit_range = range(lower, higher)
+  if adv > 0:
+    return sum(map(partial(keep_highest, num_dice=adv), hit_range))
+  if adv < 0:
+    return sum(map(partial(keep_lowest, num_dice=abs(adv)), hit_range))
+  return (higher-lower)/sides
+
+def prob_of_sum(num, size, val):
+  """Probability of rolling Val when rolling 'num' die with 'size' sides and each rolled value is added together
+  e.g. odds of rolling 7 on 2d6 is prob_of_sum(2, 6, 7)"""
+  limit = ((val-num)//size)+1
+  if num == val:
+    return 1/(size**num)
+  S = 1
+  if num != val:
+    S = sum([(-1)**i * comb(num, i) * comb(val-(size*i)-1, num-1) for i in range(limit)])
+  return 1/(size**num) * S
+
+
+def sum_n_dice_dist(num: int, size: int) -> dict[int, float]:
+  """Probability distribution of ALL possible sums for 'num' 'size'-sided die"""
+  out = {}
+  top = num*(size+1)
+  for x in range(num, ((top)//2)+1):
+    odds = prob_of_sum(num, size, x)
+    out[x] = odds
+    out[top-x] = odds
+  return dict(sorted(out.items()))
+
